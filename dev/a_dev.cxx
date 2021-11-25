@@ -59,11 +59,17 @@ int main(int argc, char **argv)
 	}
     NL;
     // test that all false elements of sieve are not divisible by any element of Sk
+    ul F = 0;
 	size_t j = 2;
 	while(j < size){
-		if(!sieve[j]) std::cout << sieve[j] << "  ";
+		if((!sieve[j])&&((j % 10) == 7)){
+			F += j;
+			//std::cout << j << "  ";
+		}
 		j++;
 	}
+	NL;
+	std::cout << "F(3): " << F << std::endl;
 	return 0;
 }
 
