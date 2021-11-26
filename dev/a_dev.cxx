@@ -26,50 +26,43 @@
 
 #include "../inc/toolbox.hxx"
 
+void prt_vector(std::vector<ul> v);
+void prt_vector(std::vector<ul> v){
+	NL;
+	for(auto i = v.begin(); i != v.end(); ++i) std::cout << *i << "  ";
+	NL;
+}
+
+void gen_Sk(ul k, std::vector<ul> &S);
+void gen_Sk(ul k, std::vector<ul> &S){
+	// Sanity check 3<=k<=97
+	S.clear();
+	if((k < 3)||(k > 97)) return;
+	// make a list of primes
+	std::vector<ul> primes;
+	SieveOfEratosthenes(primes, 10000);
+	S.assign({2,5,7});
+	k -= 1;
+	for(auto i = std::next(primes.begin(),6); i != primes.end(); ++i){
+		if((*i % 10) != 7) continue;
+		S.push_back(*i);
+		if(!(--k)) break;
+	}
+	primes.clear();
+}
+
+
 int main(int argc, char **argv)
 {
-	const ul n = 1000; // Guess at a high prime
-	const ul k = 3;
-	ul Nk = 1;	// product of all elements of Sk
-	std::vector<ul> Sk = {2,5}; // Given data
-    std::vector<ul> primes;
-    SieveOfEratosthenes(primes,n+2);
-    // Add additional primes to Sk
-    ul count = 1;
-    for(auto i = std::next(primes.begin(), 3); i != primes.end(); ++i){
-		if((*i % 10) == 7){
-			Sk.push_back(*i);
-			if(++count >k) break;
-		}
+	std::vector<ul> S;
+	gen_Sk(97, S);
+	prt_vector(S);
+	ul Nk = 1;
+	for(auto i = S.begin(); i != S.end(); ++i){
+		Nk *= *i;
+		if(Nk > 1000000000000000) break;
+		std::cout << *i << ":" << Nk << std::endl;
 	}
-	// Calc limiting product Nk
-	for(auto i = Sk.begin(); i != Sk.end(); ++i) Nk *= *i;
-	std::cout << "Nk: " << Nk << std::endl;
-	// Set up an array for sieving numbers < Nk
-	const size_t size = (const size_t)Nk;
-	std::array<bool, 44030> sieve;	// Assume all elements are False - zero.
-	size_t idx = 0;	// general purpose index for sieve
-	// now sieve out all primes and multiples from Sk
-	for(auto i = Sk.begin(); i != Sk.end(); ++i){
-		idx = size_t(*i);
-		while(idx < size){
-			sieve[idx] = true;
-			idx += *i;
-		}
-	}
-    NL;
-    // test that all false elements of sieve are not divisible by any element of Sk
-    ul F = 0;
-	size_t j = 2;
-	while(j < size){
-		if((!sieve[j])&&((j % 10) == 7)){
-			F += j;
-			//std::cout << j << "  ";
-		}
-		j++;
-	}
-	NL;
-	std::cout << "F(3): " << F << std::endl;
 	return 0;
 }
 
