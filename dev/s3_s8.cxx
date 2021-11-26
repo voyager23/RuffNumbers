@@ -55,15 +55,28 @@ void gen_Sk(ul k, std::vector<ul> &S){
 
 int main(int argc, char **argv)
 {
-	std::vector<ul> S;
-	gen_Sk(97, S);
-	prt_vector(S);
-	ul Nk = 1;
-	for(auto i = S.begin(); i != S.end(); ++i){
-		Nk *= *i;
-		if(Nk > 1000000000000000) break;
-		std::cout << *i << ":" << Nk << std::endl;
+	/* Outline:
+	 * for 3 <= k <= 8
+	 * 		gen_Sk
+	 * 		Nk is product of all elements of Sk
+	 * 		Setup a container to sieve numbers upto Nk
+	 * 		Using Sk - eliminate all primes and multiples
+	 * 		Sum remaining numbers in sieve ending in 7
+	 * 		output F(k) = Sum
+	 * next k
+	 */
+	for(ul k = 3; k != 7; ++k){
+		std::vector<ul> Sk;
+		gen_Sk(k, Sk);
+		ul Nk = 1;
+		for(auto i = Sk.begin(); i != Sk.end(); ++i) Nk *= *i;
+		std::cout<<Nk<<std::endl;
+		// Sieve setup
+		std::vector<bool> sieve(Nk, false);
+		
+		sieve.clear();
 	}
+
 	return 0;
 }
 

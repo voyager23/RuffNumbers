@@ -25,7 +25,7 @@
 
 void SieveOfEratosthenes(std::vector<ul> &primes, ul n)
 {
-	printf("Starting Sieve for n = %lu\n",n);
+	//printf("Starting Sieve for n = %lu\n",n);
     // internal vector of bool
     std::vector<bool> prime;
     // Set n+1 entries in vector<bool> to true
@@ -49,7 +49,7 @@ void SieveOfEratosthenes(std::vector<ul> &primes, ul n)
 	}
     primes.clear();
     for(ul pn = 2; pn != n+1; ++pn) if(prime[pn]) primes.push_back(pn);
-    printf("Completed Sieve\n");
+    //printf("Completed Sieve\n");
 }
 
 void find_factors(std::vector<ul> &primes, ul n, std::vector<ul> &factors){
