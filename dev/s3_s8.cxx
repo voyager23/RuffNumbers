@@ -56,7 +56,7 @@ void gen_Sk(ul k, std::vector<ul> &S){
 int main(int argc, char **argv)
 {
 	/* Outline:
-	 * for 3 <= k <= 8
+	 * for 3 <= k <= (8)
 	 * 		gen_Sk
 	 * 		Nk is product of all elements of Sk
 	 * 		Setup a container to sieve numbers upto Nk
@@ -65,15 +65,33 @@ int main(int argc, char **argv)
 	 * 		output F(k) = Sum
 	 * next k
 	 */
-	for(ul k = 3; k != 7; ++k){
+	for(ul k = 3; k != 6; ++k){	// 3,4,5 complete in short time. BAD-ALLOC for k > 6
 		std::vector<ul> Sk;
 		gen_Sk(k, Sk);
 		ul Nk = 1;
 		for(auto i = Sk.begin(); i != Sk.end(); ++i) Nk *= *i;
-		std::cout<<Nk<<std::endl;
+		std::cout<<"k:"<<k<<"  Nk:"<<Nk<<"  F(k):";
 		// Sieve setup
-		std::vector<bool> sieve(Nk, false);
-		
+		std::vector<bool> sieve(Nk, true);	// sieve out all primes from Sk
+		size_t idx = 0;	// general purpose index
+		for(auto i = Sk.begin(); i != Sk.end(); ++i){
+			idx = size_t(*i);			
+			while(idx < Nk ){	// We have allocated Nk elements for sieve
+				sieve[idx] = false;
+				idx += *i;
+			}
+		}
+		// Finally sum all sieve elements which are true and end in 7;
+		ul F = 0;
+		idx = 2;
+		while(idx < Nk){
+			if((sieve[idx])&&((idx % 10) == 7)){
+				F += idx;
+				//std::cout << j << "  ";
+			}
+			idx++;
+		}
+		std::cout<<F<<std::endl;		
 		sieve.clear();
 	}
 
