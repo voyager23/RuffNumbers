@@ -65,11 +65,17 @@ int main(int argc, char **argv)
 	 * 		output F(k) = Sum
 	 * next k
 	 */
+	 
+	 const ul modulus = 10000+7;
+	 
 	for(ul k = 3; k != 6; ++k){	// 3,4,5 complete in short time. BAD-ALLOC for k > 6
 		std::vector<ul> Sk;
 		gen_Sk(k, Sk);
 		ul Nk = 1;
-		for(auto i = Sk.begin(); i != Sk.end(); ++i) Nk *= *i;
+		for(auto i = Sk.begin(); i != Sk.end(); ++i){
+			Nk *= *i;
+			//Nk %= modulus;
+		}
 		std::cout<<"k:"<<k<<"  Nk:"<<Nk<<"  F(k):";
 		// Sieve setup
 		std::vector<bool> sieve(Nk, true);	// sieve out all primes from Sk
@@ -91,6 +97,7 @@ int main(int argc, char **argv)
 			}
 			idx++;
 		}
+		//F %= modulus;
 		std::cout<<F<<std::endl;		
 		sieve.clear();
 	}
