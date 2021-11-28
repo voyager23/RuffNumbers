@@ -65,12 +65,12 @@ int main(int argc, char **argv)
 	 * 		output F(k) = Sum
 	 * next k
 	 */
-	for(ul k = 3; k != 7; ++k){
+	for(ul k = 3; k != 5; ++k){
 		std::vector<ul> Sk;
 		gen_Sk(k, Sk);
 		ul Nk = 1;
 		for(auto i = Sk.begin(); i != Sk.end(); ++i) Nk *= *i;
-		std::cout<<Nk<<std::endl;
+		std::cout<<"k:"<<k<<"  Nk:"<<Nk<<std::endl;
 		// Sieve setup
 		std::vector<bool> sieve(Nk, false);
 		
