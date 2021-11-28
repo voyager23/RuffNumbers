@@ -1,5 +1,8 @@
 # makefile for dev folder
 
+enum : ../inc/toolbox.o enum_results.cxx
+	g++ --std=c++11 -g -Wall -o enum ../inc/toolbox.o enum_results.cxx
+
 s3_s8 : ../inc/toolbox.o s3_s8.cxx
 	g++ --std=c++11 -g -Wall -o s3_s8 ../inc/toolbox.o s3_s8.cxx
 
